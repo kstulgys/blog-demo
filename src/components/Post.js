@@ -109,6 +109,7 @@ export default class Post extends Component {
                       {bookmarkMutation =>
                         isBookmarked ? (
                           <a
+                            href="/#"
                             onClick={bookmarkMutation}
                             className="no-underline link black self-end"
                           >
@@ -116,6 +117,7 @@ export default class Post extends Component {
                           </a>
                         ) : (
                           <a
+                            href="/#"
                             onClick={bookmarkMutation}
                             className="no-underline link black self-end"
                           >
