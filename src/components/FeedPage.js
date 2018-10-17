@@ -4,11 +4,11 @@ import { graphql } from 'react-apollo'
 import { gql } from 'apollo-boost'
 
 class FeedPage extends Component {
-  componentWillReceiveProps(nextProps) {
-    if (this.props.location.key !== nextProps.location.key) {
-      this.props.feedQuery.refetch()
-    }
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   if (this.props.location.key !== nextProps.location.key) {
+  //     this.props.feedQuery.refetch()
+  //   }
+  // }
 
   componentDidMount() {
     this.props.subscribeToNewFeed()
@@ -24,7 +24,7 @@ class FeedPage extends Component {
     }
 
     return (
-      <div className="flex-ns justify-center">
+      <Fragment>
         {this.props.feedQuery.feed &&
           this.props.feedQuery.feed.map(post => (
             <Post
@@ -35,7 +35,7 @@ class FeedPage extends Component {
             />
           ))}
         {this.props.children}
-      </div>
+      </Fragment>
     )
   }
 }

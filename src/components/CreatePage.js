@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { graphql } from 'react-apollo'
-import  { gql } from 'apollo-boost'
-
+import { gql } from 'apollo-boost'
 class CreatePage extends Component {
   state = {
     title: '',
@@ -11,7 +10,7 @@ class CreatePage extends Component {
 
   render() {
     return (
-      <div className="pa4 flex justify-center bg-white">
+      <div className="pa4 flex justify-center">
         <form onSubmit={this.handlePost}>
           <h1>Create Draft</h1>
           <input

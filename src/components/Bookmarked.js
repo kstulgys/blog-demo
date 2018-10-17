@@ -1,18 +1,32 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import styled from 'styled-components'
-
+import { User } from './User'
 class Bookmarked extends Component {
   render() {
     return (
-      <Main>
-        <h1>Hello</h1>
-      </Main>
+      <Fragment>
+        <User>
+          {({ data }) => (
+            <div>
+              {data.me && <h2 className="tc">Bookmarks</h2>}
+              <div>
+                {data.me &&
+                  data.me.bookmarks.map(bm => (
+                    <div key={bm.id} className="shadow-2 h3 mt2 pointer grow">
+                      <p className="pa3">{bm.post.title}</p>
+                    </div>
+                  ))}
+              </div>
+            </div>
+          )}
+        </User>
+      </Fragment>
     )
   }
 }
 
 export default Bookmarked
 
-const Main = styled.section.attrs({
-  className: 'shadow-2 bg-white',
-})``
+// const Main = styled.section.attrs({
+//   className: 'shadow-2 bg-white',
+// })``

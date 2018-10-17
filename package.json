@@ -32,11 +32,14 @@
     "react-dom": "16.5.2",
     "react-icons": "^3.2.0",
     "react-modal": "3.6.1",
+    "react-powerplug": "^1.0.0-rc.1",
+    "react-responsive-modal": "^3.4.0",
     "react-router-dom": "4.3.1",
     "styled-components": "^4.0.0",
     "subscriptions-transport-ws": "0.9.15",
     "tachyons": "4.11.1",
-    "tachyons-components": "^1.0.1"
+    "tachyons-components": "^1.0.1",
+    "uuid": "^3.3.2"
   },
   "scripts": {
     "precommit": "yarn run lint && yarn run flow",

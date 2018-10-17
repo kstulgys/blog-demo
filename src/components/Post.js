@@ -1,29 +1,18 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { Query, Mutation } from 'react-apollo'
 import { gql } from 'apollo-boost'
 import { Link } from 'react-router-dom'
 import { User, ME_QUERY } from './User'
 import { FaRegBookmark, FaBookmark } from 'react-icons/fa'
-
+import uuid from 'uuid/v1'
+import { Hover } from 'react-powerplug'
 export default class Post extends Component {
   state = {
     bookmarkId: 'thereisnobookmark',
     postId: '',
     isBookmarked: null,
   }
-  // componentDidMount() {
-  // let bookmarkId = 'thereisnobookmark'
-  // const postId = this.props.post.id
 
-  // let bookmark = {}
-  // if (data && data.me) {
-  //   bookmark = data.me.bookmarks.filter(bm => bm.post.id === postId)
-  //   bookmarkId = bookmark ? bookmark.id : bookmarkId
-  //   // bookmark = bookmark && bookmark[0]
-  //   // bookmarkId = bookmark ? bookmark.id : bookmarkId
-  // }
-  // const isBookmarked = bookmarkId !== 'thereisnobookmark'
-  // }
   render() {
     const postId = this.props.post.id
     const { id, title, author, text } = this.props.post
@@ -34,19 +23,16 @@ export default class Post extends Component {
           if (error) return <h1>Error from post...</h1>
 
           let bookmarkId = 'thereisnobookmark'
-          let bookmark = {}
+          let bookmark =
+            data.me && data.me.bookmarks.filter(bm => bm.post.id === postId)[0]
+          bookmarkId = bookmark ? bookmark.id : bookmarkId
+          // const randomId = uuid()
 
-          if (data.me) {
-            bookmark = data.me.bookmarks.filter(bm => bm.post.id === postId)[0]
-            bookmarkId = bookmark ? bookmark.id : bookmarkId
-            // bookmark = bookmark && bookmark[0]
-            // bookmarkId = bookmark ? bookmark.id : bookmarkId
-          }
           const isBookmarked = bookmarkId !== 'thereisnobookmark'
           // console.log('bookmarkId', bookmarkId)
           const variables = isBookmarked ? { bookmarkId } : { postId }
           return (
-            <article className="pv3 bt bb b--black-10 ph3 w-40-ns w-100-m">
+            <article className="pv3 bt bb b--black-10 ph3 w-100 w-100-m w-50-l">
               <div className="flex flex-column flex-row-ns h-100">
                 <div className="w-100 w-60-ns pr3-ns order-2 order-1-ns flex flex-column justify-between">
                   <Link
@@ -55,7 +41,7 @@ export default class Post extends Component {
                   >
                     <h1 className="f3 athelas ma0 pa0 lh-title">{title}</h1>
                   </Link>
-                  <p className="items-start h4 f5 f4-l lh-copy athelas">
+                  <p className="items-start h4-ns f5 f4-l lh-copy athelas">
                     {text}
                   </p>
                   <div className="flex justify-between">
@@ -109,31 +95,42 @@ export default class Post extends Component {
                       {bookmarkMutation =>
                         isBookmarked ? (
                           <a
-                            href="/#"
-                            onClick={bookmarkMutation}
-                            className="no-underline link black self-end"
+                            onClick={data.me && bookmarkMutation}
+                            className="no-underline link black self-end pointer"
                           >
                             <FaBookmark />
                           </a>
                         ) : (
-                          <a
-                            href="/#"
-                            onClick={bookmarkMutation}
-                            className="no-underline link black self-end"
-                          >
-                            <FaRegBookmark />
-                          </a>
+                          <Hover>
+                            {({ hovered, bind }) => (
+                              <Fragment>
+                                {hovered &&
+                                  !data.me && (
+                                    <div className="flex w-60 justify-end">
+                                      <span className="">Please login</span>
+                                    </div>
+                                  )}
+                                <a
+                                  {...bind}
+                                  onClick={data.me && bookmarkMutation}
+                                  className="no-underline link black self-end pointer"
+                                >
+                                  <FaRegBookmark />
+                                </a>
+                              </Fragment>
+                            )}
+                          </Hover>
                         )
                       }
                     </Mutation>
                   </div>
                 </div>
 
-                <div className="order-1 order-2-ns mb4 mb0-ns w-100 w-40-ns overflow-hidden">
+                <div className="order-1 order-2-ns w-100 w-50-ns link overflow-hidden">
                   <img
                     alt="pic"
                     src="http://mrmrs.github.io/photos/cpu.jpg"
-                    className="grow db"
+                    className="grow"
                   />
                 </div>
               </div>

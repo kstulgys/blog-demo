@@ -11,8 +11,8 @@ const Query = {
     const where = {
       isPublished: false,
       author: {
-        id
-      }
+        id,
+      },
     }
 
     return ctx.db.query.posts({ where }, info)
@@ -24,6 +24,9 @@ const Query = {
 
   me(parent, args, ctx, info) {
     const id = getUserId(ctx)
+    if (!id) {
+      return null
+    }
     return ctx.db.query.user({ where: { id } }, info)
   },
 }

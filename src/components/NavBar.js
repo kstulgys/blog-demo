@@ -8,6 +8,9 @@ import {
   Redirect,
 } from 'react-router-dom'
 import styled from 'styled-components'
+import ModalWrapper from './Modal/ModalWrapper'
+import CreatePage from './CreatePage'
+import { AUTH_TOKEN } from '../constant'
 // import styled from 'tachyons-components'
 
 import { User } from './User'
@@ -18,10 +21,11 @@ class Navbar extends Component {
   render() {
     return (
       <User>
-        {({ data }) => (
-          <Nav>
-            <div className="w-100 flex justify-between h3 items-center">
-              <div>
+        {({ data: {me}, loading }) => {
+          if (loading) return <span>Loading..</span>
+          return (
+            <Nav>
+              <div className="flex justify-between items-center">
                 <StyledLink to="/">
                   <img
                     src="http://tachyons.io/img/logo.jpg"
@@ -29,21 +33,32 @@ class Navbar extends Component {
                     alt="Site Name"
                   />
                 </StyledLink>
+                <div>
+                  {me ? (
+                    <Fragment>
+                      <ModalWrapper activeModal={<CreatePage />}>
+                        {({ toggle }) => (
+                          <StyledLink normal toggle={toggle}>
+                            Create draft
+                          </StyledLink>
+                        )}
+                      </ModalWrapper>
+                      <StyledLink
+                        normal
+                        removeAuth={localStorage.removeItem(AUTH_TOKEN)}
+                      >
+                        Log out
+                      </StyledLink>
+                      <StyledLink to="/">Profile</StyledLink>
+                    </Fragment>
+                  ) : (
+                    <StyledLink to="/">Log in</StyledLink>
+                  )}
+                </div>
               </div>
-              <div>
-                <StyledLink
-                  hover={`hover-bg-lightest-silver hover-black`}
-                  to="/"
-                >
-                  Create draft
-                </StyledLink>
-                <StyledLink to="/">Log in</StyledLink>
-                <StyledLink to="/">Log out</StyledLink>
-                <StyledLink to="/">Profile</StyledLink>
-              </div>
-            </div>
-          </Nav>
-        )}
+            </Nav>
+          )
+        }}
       </User>
     )
   }
@@ -52,17 +67,25 @@ class Navbar extends Component {
 export default Navbar
 
 const StyledLink = props => {
-  const className = `link dark-gray f6 f5-l dib bg-animate ${props.hover} pa3`
+  const className = `link dark-gray f6 f5-l dib bg-animate pa2 pa3-ns pointer`
 
   return (
-    <Link className={className} to={props.to}>
-      <div className="grow-large">{props.children}</div>
-    </Link>
+    <Fragment>
+      {props.normal ? (
+        <a className={className} onClick={props.toggle}>
+          <div className="grow">{props.children}</div>
+        </a>
+      ) : (
+        <Link className={className} to={props.to}>
+          <div className="grow">{props.children}</div>
+        </Link>
+      )}
+    </Fragment>
   )
 }
 
 const Nav = styled.nav.attrs({
-  className: 'db dt-l w-100 border-box ph5-l pv0-l',
+  className: 'bb b--black-10 w-100 ph4 ph5-l',
 })``
 
 // const Button = styled('button')`
