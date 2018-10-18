@@ -1,43 +1,41 @@
 import React, { Component, Fragment } from 'react'
 import Modal from 'react-responsive-modal'
 import { Toggle } from 'react-powerplug'
+import { Mutation, Query } from 'react-apollo'
+import { gql } from 'apollo-boost'
+import LogInModal from '../LogInModal'
+import CreatePostModal from '../CreatePostModal'
 
-class ModalWrapper extends Component {
-  render() {
-    return (
-      <Toggle initial={false}>
-        {({ on, toggle }) => (
-          <Fragment>
-            {this.props.children({ toggle })}
-            <Modal open={on} onClose={toggle} center showCloseIcon={false}>
-              {this.props.activeModal}
-            </Modal>
-          </Fragment>
-        )}
-      </Toggle>
-    )
-  }
-}
+const ModalWrapper = ({ children }) => (
+  <Mutation mutation={CLOSE_MODAL_MUTATION}>
+    {closeModalMutation => (
+      <Modal open={true} onClose={closeModalMutation} center>
+        {children}
+      </Modal>
+    )}
+  </Mutation>
+)
 
 export default ModalWrapper
 
-// const ModalConductor = props => {
-//   switch (props.currentModal) {
-//     case 'EXPORT_DATA':
-//       return <ExportDataModal {...props} />
+const CLOSE_MODAL_MUTATION = gql`
+  mutation CLOSE_MODAL_MUTATION {
+    closeModal @client {
+      currentModal
+    }
+  }
+`
 
-//     case 'SOCIAL_SIGN_IN':
-//       return <SignInModal {...props} />
+// const ModalWrapper = ({ currentModal, children }) => (
+//   <Mutation mutation={OPEN_MODAL_MUTATION} variables={{ currentModal }}>
+//     {openModalMutation => children(openModalMutation)}
+//   </Mutation>
+// )
 
-//     case 'FEEDBACK':
-//       return <FeedbackModal {...props} />
-
-//     case 'EDIT_BOX':
-//       return <BoxDetailsModal {...props} />
-
-//     default:
-//       return null
+// const OPEN_MODAL_MUTATION = gql`
+//   mutation OPEN_MODAL_MUTATION($currentModal: String!) {
+//     openModal(currentModal: $currentModal) @client {
+//       currentModal
+//     }
 //   }
-// }
-
-// export default ModalConductor
+// `

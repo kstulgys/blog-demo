@@ -2,13 +2,15 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import Navbar from './NavBar'
 import FeedPage from './FeedPage'
-import ModalWrapper from '../components/Modal/ModalWrapper'
+import ModalWrapper from './Modal/ModalConductor'
 import Bookmarked from './Bookmarked'
 import { Route } from 'react-router-dom'
+import ModalConductor from '../components/Modal/ModalConductor'
 class MainLayout extends Component {
   render() {
     return (
       <div>
+        <ModalConductor />
         <Navbar />
         <div className="flex-ns w-100">
           <div className="fl h-100 w-100 w-80-ns flex-ns flex-wrap flex-column-m">

@@ -11,17 +11,17 @@ import styled from 'styled-components'
 import ModalWrapper from './Modal/ModalWrapper'
 import CreatePage from './CreatePage'
 import { AUTH_TOKEN } from '../constant'
-// import styled from 'tachyons-components'
 
 import { User } from './User'
-// import CreatePost from '../Post/CreatePost'
-// import LogIn from '../LogIn'
+
+import { Mutation, Query } from 'react-apollo'
+import { gql } from 'apollo-boost'
 
 class Navbar extends Component {
   render() {
     return (
       <User>
-        {({ data: {me}, loading }) => {
+        {({ data: { me }, loading }) => {
           if (loading) return <span>Loading..</span>
           return (
             <Nav>
@@ -36,23 +36,34 @@ class Navbar extends Component {
                 <div>
                   {me ? (
                     <Fragment>
-                      <ModalWrapper activeModal={<CreatePage />}>
-                        {({ toggle }) => (
-                          <StyledLink normal toggle={toggle}>
-                            Create draft
-                          </StyledLink>
-                        )}
-                      </ModalWrapper>
+                      <StyledLink normal>Create draft</StyledLink>
+
                       <StyledLink
                         normal
                         removeAuth={localStorage.removeItem(AUTH_TOKEN)}
                       >
                         Log out
                       </StyledLink>
+
                       <StyledLink to="/">Profile</StyledLink>
                     </Fragment>
                   ) : (
-                    <StyledLink to="/">Log in</StyledLink>
+                    // <StyledLink to="/">Log in</StyledLink>
+                    <Mutation
+                      mutation={OPEN_MODAL_MUTATION}
+                      variables={{ currentModal: 'LOG_IN' }}
+                    >
+                      {openModalMutation => (
+                        <StyledLink
+                          normal
+                          openModalMutation={openModalMutation}
+                        >
+                          Log in
+                        </StyledLink>
+                      )}
+                    </Mutation>
+
+                    // <LogInModal />
                   )}
                 </div>
               </div>
@@ -66,13 +77,32 @@ class Navbar extends Component {
 
 export default Navbar
 
+const OPEN_MODAL_MUTATION = gql`
+  mutation OPEN_MODAL_MUTATION($currentModal: String!) {
+    openModal(currentModal: $currentModal) @client {
+      currentModal
+    }
+  }
+`
+
+// <ModalWrapper currentModal="LOG_IN">
+// {openModalMutation => (
+//   <StyledLink
+//     normal
+//     openModalMutation={openModalMutation}
+//   >
+//     Log in
+//   </StyledLink>
+// )}
+// </ModalWrapper>
+
 const StyledLink = props => {
   const className = `link dark-gray f6 f5-l dib bg-animate pa2 pa3-ns pointer`
 
   return (
     <Fragment>
       {props.normal ? (
-        <a className={className} onClick={props.toggle}>
+        <a className={className} onClick={props.openModalMutation}>
           <div className="grow">{props.children}</div>
         </a>
       ) : (
