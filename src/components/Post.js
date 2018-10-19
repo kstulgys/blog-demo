@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { Query, Mutation } from 'react-apollo'
 import { gql } from 'apollo-boost'
 import { Link } from 'react-router-dom'
-import { User, ME_QUERY } from './User'
+import User, { ME_QUERY } from './User'
 import { FaRegBookmark, FaBookmark } from 'react-icons/fa'
 import uuid from 'uuid/v1'
 import { Hover } from 'react-powerplug'
@@ -32,7 +32,7 @@ export default class Post extends Component {
           // console.log('bookmarkId', bookmarkId)
           const variables = isBookmarked ? { bookmarkId } : { postId }
           return (
-            <article className="pv3 bt bb b--black-10 ph3 w-100 w-100-m w-50-l">
+            <article className="pv3 bt bb b--black-10 ph3 w-100-m w-50-l">
               <div className="flex flex-column flex-row-ns h-100">
                 <div className="w-100 w-60-ns pr3-ns order-2 order-1-ns flex flex-column justify-between">
                   <Link
@@ -41,7 +41,7 @@ export default class Post extends Component {
                   >
                     <h1 className="f3 athelas ma0 pa0 lh-title">{title}</h1>
                   </Link>
-                  <p className="items-start h4-ns f5 f4-l lh-copy athelas">
+                  <p className="items-start h3-l h2-m f5 f4-l lh-copy truncate">
                     {text}
                   </p>
                   <div className="flex justify-between">

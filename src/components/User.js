@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { Query } from 'react-apollo'
 import { gql } from 'apollo-boost'
 
-export const User = props => (
+const User = props => (
   <Query query={ME_QUERY}>
     {({ data, loading, error }) => {
       console.log(data)
@@ -10,6 +10,7 @@ export const User = props => (
     }}
   </Query>
 )
+export default User
 
 export const ME_QUERY = gql`
   query ME_QUERY {

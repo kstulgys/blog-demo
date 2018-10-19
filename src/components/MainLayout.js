@@ -6,20 +6,31 @@ import ModalWrapper from './Modal/ModalConductor'
 import Bookmarked from './Bookmarked'
 import { Route } from 'react-router-dom'
 import ModalConductor from '../components/Modal/ModalConductor'
+import { Row, Col } from 'antd'
+// <Row>
+// <Col xs={{ span: 5, offset: 1 }} lg={{ span: 6, offset: 2 }}>Col</Col>
+// <Col xs={{ span: 11, offset: 1 }} lg={{ span: 6, offset: 2 }}>Col</Col>
+// <Col xs={{ span: 5, offset: 1 }} lg={{ span: 6, offset: 2 }}>Col</Col>
+// </Row>,
 class MainLayout extends Component {
   render() {
     return (
       <div>
         <ModalConductor />
         <Navbar />
-        <div className="flex-ns w-100">
-          <div className="fl h-100 w-100 w-80-ns flex-ns flex-wrap flex-column-m">
+        <Row type="flex" justify="center">
+          <Col
+            className="flex flex-wrap"
+            xs={{ span: 23 }}
+            md={{ span: 23 }}
+            lg={{ span: 15 }}
+          >
             <Route path="/" component={FeedPage} />
-          </div>
-          <div className="fl w-0 w-20-ns pr2">
+          </Col>
+          <Col xs={{ span: 0 }} md={{ span: 0 }} lg={{ span: 4, offset: 1 }}>
             <Bookmarked />
-          </div>
-        </div>
+          </Col>
+        </Row>
       </div>
     )
   }
@@ -27,6 +38,7 @@ class MainLayout extends Component {
 
 export default MainLayout
 
+// <Bookmarked />
 // const Main = styled.main.attrs({
 //   className: 'flex w-100 h-100 items-center justify-center',
 // })``

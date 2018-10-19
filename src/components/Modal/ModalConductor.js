@@ -33,5 +33,3 @@ const GET_ACTIVE_MODAL = gql`
     }
   }
 `
-
-

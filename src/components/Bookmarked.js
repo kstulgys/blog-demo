@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import styled from 'styled-components'
-import { User } from './User'
+import User from './User'
 class Bookmarked extends Component {
   render() {
     return (
@@ -8,7 +8,7 @@ class Bookmarked extends Component {
         <User>
           {({ data }) => (
             <div>
-              {data.me && <h2 className="tc">Bookmarks</h2>}
+              {data.me && <h2 className="tc">My bookmarks</h2>}
               <div>
                 {data.me &&
                   data.me.bookmarks.map(bm => (

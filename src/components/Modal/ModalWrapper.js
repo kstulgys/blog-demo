@@ -1,15 +1,17 @@
 import React, { Component, Fragment } from 'react'
-import Modal from 'react-responsive-modal'
-import { Toggle } from 'react-powerplug'
+import { Modal, Button, Form, Icon, Input, Checkbox } from 'antd'
 import { Mutation, Query } from 'react-apollo'
 import { gql } from 'apollo-boost'
-import LogInModal from '../LogInModal'
-import CreatePostModal from '../CreatePostModal'
 
 const ModalWrapper = ({ children }) => (
   <Mutation mutation={CLOSE_MODAL_MUTATION}>
     {closeModalMutation => (
-      <Modal open={true} onClose={closeModalMutation} center>
+      <Modal
+        title="Please log in"
+        visible={true}
+        footer={null}
+        onCancel={closeModalMutation}
+      >
         {children}
       </Modal>
     )}
